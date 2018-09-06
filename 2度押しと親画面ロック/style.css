@@ -25,3 +25,14 @@ a.smallwindow {
   text-align: center;
   opacity: 0.7;
 }
+
+#mmessage{
+  position: absolute;
+  width: 300px;
+  background: #FFFFFF;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  border-radius: 4px;
+  opacity: 1.0;
+}
