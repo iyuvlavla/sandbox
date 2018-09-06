@@ -27,6 +27,11 @@ function dlOpen(){
     windowlock.setAttribute("id", "lock");
     document.body.appendChild(windowlock);
     
+    let modalmessage = document.createElement('p');
+    modalmessage.setAttribute('id','mmessage');
+    modalmessage.innerHTML = '画面開設中';
+    windowlock.appendChild(modalmessage);
+    
     let interval = setInterval(function(){
         if(!openWindow || openWindow.closed){
             document.body.removeChild(document.getElementById('lock'));
