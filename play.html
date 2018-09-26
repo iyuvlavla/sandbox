@@ -1,0 +1,119 @@
+<!htdocs html>
+<html>
+<head>
+  <style>
+  body{position: relative;}
+  header{background:#bababa;}
+  main{display: flex;position:absolute;  top: 50%;left: 50%;transform: translateY(-50%) translateX(-50%);}
+    a.card{background:#dbfffd;border-radius: 4px;border: solid 0.5px #DDDDDD;height:70px;width:50px;margin: 5px;}
+  .card{background:#dbfffd;border-radius: 4px;border: solid 0.5px #DDDDDD;height:70px;width:50px;margin: 5px;}
+  h2{text-align:center;}
+  </style>
+  
+  <script>
+  const playcard = new Array("1r","1r","1b","1b","2r","2r","2b","2b","3r","3r","3b","3b","4r","4r","4b","4b");
+  const playseet = new Array();
+  let nowPlayng = false;
+  let playCount = 0;
+  let timer;
+  let select1st = 'non';
+  let select2nd = 'non';
+  let select1stDOM;
+  let select2ndDOM;
+  let success = 0;
+
+  
+  function test(isCardid){
+    if(!nowPlayng){console.log('click start. lets playing');return;}
+    
+    const selectcard = document.getElementById(isCardid);
+    selectcard.innerHTML = '<h2>' + playseet[isCardid] + '</h2>';
+    
+    if(select1st === 'non'){
+      select1st = playseet[isCardid];
+      select1stDOM = selectcard;
+      console.log(select1st);
+    }else{
+      select2nd = playseet[isCardid];
+      select2ndDOM = selectcard;
+      console.log(select2nd);
+    }
+    
+    if(assertcard(select1st, select2nd)){
+      success++;
+      select1st = 'non';
+      select2nd = 'non';
+      console.log('success :' + success);
+    }else if(select2nd != 'non'){
+      select1stDOM.innerHTML = '<h2></h2>';
+      select2ndDOM.innerHTML = '<h2></h2>';
+      select1st = 'non';
+      select2nd = 'non';
+      console.log('success :' + success);
+    }
+    
+    if(success === 8){
+      clearInterval(timer);
+      playtimer.innerHTML = 'game over. your play time ' + playCount + ' second. click finish';
+    }
+  }
+  
+  function assertcard(isSelect1st, isSelect2nd){
+    if(isSelect1st === isSelect2nd){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
+  function gametimer(){
+    
+    if(nowPlayng){console.log('now playing');return;}
+    nowPlayng = true;
+        
+    for(let cardIndex in playcard){
+    playseet.push(playcard[cardIndex]);
+    }
+    console.log(playseet);
+    const playtimer = document.getElementById('playtimer');
+    playtimer.innerHTML = 'start game';
+    timer = setInterval(function(){
+      playCount++;
+      playtimer.innerHTML = 'now time : ' + playCount + 'second';
+      
+      },1000);
+  }
+  </script>
+</head>
+<body>
+
+<header><a href='#!' onclick='gametimer();'>start&ensp;</a><a href='#!' onclick='location.reload();'>finish</a><p id='playtimer'>stand by</p></header>
+<main id='playseet'>
+<div>
+<div class='card' id='0' onclick='test(this.id);'></div>
+<div class='card' id='1' onclick='test(this.id);'></div>
+<div class='card' id='2' onclick='test(this.id);'></div>
+<div class='card' id='3' onclick='test(this.id);'></div>
+</div>
+<div>
+<div class='card' id='4' onclick='test(this.id);'></div>
+<div class='card' id='5' onclick='test(this.id);'></div>
+<div class='card' id='6' onclick='test(this.id);'></div>
+<div class='card' id='7' onclick='test(this.id);'></div>
+</div>
+<div>
+<div class='card' id='8' onclick='test(this.id);'></div>
+<div class='card' id='9' onclick='test(this.id);'></div>
+<div class='card' id='10' onclick='test(this.id);'></div>
+<div class='card' id='11' onclick='test(this.id);'></div>
+</div>
+<div>
+<div class='card' id='12' onclick='test(this.id);'></div>
+<div class='card' id='13' onclick='test(this.id);'></div>
+<div class='card' id='14' onclick='test(this.id);'></div>
+<div class='card' id='15' onclick='test(this.id);'></div>
+</div>
+</main>
+
+</body>
+</html>
