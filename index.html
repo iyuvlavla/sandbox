@@ -1,6 +1,7 @@
 <!htdocs html>
 <html>
 <head>
+  <title>Nervous breakdown(beta)</title>
   <style>
   body{position: relative;}
   header{background:#bababa;}
@@ -13,6 +14,8 @@
   <script>
   const playcard = new Array("1r","1r","1b","1b","2r","2r","2b","2b","3r","3r","3b","3b","4r","4r","4b","4b");
   const playseet = new Array();
+  const selectCardList = new Array();
+  let selectCardPool = '';
   let nowPlayng = false;
   let playCount = 0;
   let timer;
@@ -24,7 +27,9 @@
 
   
   function test(isCardid){
-    if(!nowPlayng){console.log('click start. lets playing');return;}
+    if(!nowPlayng || 
+       selectCardList.indexOf(playseet[isCardid]) != -1 ||
+       selectCardPool === isCardid){return;}
     
     const selectcard = document.getElementById(isCardid);
     selectcard.innerHTML = '<h2>' + playseet[isCardid] + '</h2>';
@@ -32,24 +37,30 @@
     if(select1st === 'non'){
       select1st = playseet[isCardid];
       select1stDOM = selectcard;
+      selectCardPool = isCardid;
       console.log(select1st);
     }else{
       select2nd = playseet[isCardid];
       select2ndDOM = selectcard;
+      selectCardPool = '';
       console.log(select2nd);
     }
     
     if(assertcard(select1st, select2nd)){
       success++;
+      selectCardList.push(select1st);
+      selectCardList.push(select2nd);
       select1st = 'non';
       select2nd = 'non';
       console.log('success :' + success);
     }else if(select2nd != 'non'){
+      setTimeout(function(){
       select1stDOM.innerHTML = '<h2></h2>';
       select2ndDOM.innerHTML = '<h2></h2>';
       select1st = 'non';
       select2nd = 'non';
       console.log('success :' + success);
+      },500);
     }
     
     if(success === 8){
@@ -79,7 +90,7 @@
     playtimer.innerHTML = 'start game';
     timer = setInterval(function(){
       playCount++;
-      playtimer.innerHTML = 'now time : ' + playCount + 'second';
+      playtimer.innerHTML = 'now the number : ' + playCount + 'second';
       
       },1000);
   }
@@ -87,7 +98,10 @@
 </head>
 <body>
 
-<header><a href='#!' onclick='gametimer();'>start&ensp;</a><a href='#!' onclick='location.reload();'>finish</a><p id='playtimer'>stand by</p></header>
+<header><a href='#!' onclick='gametimer();'>start&ensp;</a>
+  <a href='#!' onclick='location.reload();'>finish</a>
+  <p id='playtimer'>click start</p>
+</header>
 <main id='playseet'>
 <div>
 <div class='card' id='0' onclick='test(this.id);'></div>
